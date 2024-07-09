@@ -2,7 +2,7 @@
   "name": "demoai",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ClancyD-SHC.github.io",
+  "homepage": "https://clancyd-shc.github.io",
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
     "@testing-library/jest-dom": "^5.17.0",
