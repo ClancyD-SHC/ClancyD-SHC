@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
-import { MessageSquare, Lightbulb, Stethoscope, School } from 'lucide-react';
+import { MessageSquare, Lightbulb, Stethoscope, School, ArrowLeft, Upload, FileText } from 'lucide-react';
 
 const coachingTopics = [
   {
@@ -11,9 +11,23 @@ const coachingTopics = [
     description: "Learn how to instruct AI to generate innovative ideas for work processes or products.",
     icon: <Lightbulb className="h-6 w-6" />,
     prompts: [
-      "Instruct the AI to brainstorm three innovative ideas for integrating AI into our customer service process. For each idea, provide a brief description, potential benefits, and possible challenges in implementation.",
-      "Ask the AI to analyze our current product development process. Identify three key bottlenecks or inefficiencies, then suggest AI-powered solutions for each. For each solution, explain how it would work and the potential impact on time-to-market and product quality.",
-      "Guide the AI to evaluate the feasibility of implementing an AI-powered predictive maintenance system in our manufacturing plant. Consider technical requirements, potential ROI, implementation challenges, and timeline. Provide a pros and cons list and a final recommendation."
+      {
+        text: "Instruct the AI to brainstorm three innovative ideas for integrating AI into our customer service process. Try giving some areas for it to focus on.",
+        requiresUpload: false,
+      },
+      {
+        text: "Ask the AI to analyze our current product development process. Identify three key bottlenecks or inefficiencies, then suggest AI-powered solutions for each. For each solution, explain how it would work and the potential impact on time-to-market and product quality.",
+        requiresUpload: true,
+      },
+      {
+        text: "Guide the AI to evaluate the feasibility of implementing an AI-powered predictive maintenance system in our manufacturing plant. Consider technical requirements, potential ROI, implementation challenges, and timeline. Provide a pros and cons list and a final recommendation.",
+        requiresUpload: true,
+      }
+    ],
+    examplePrompts: [
+      "Generate three innovative ideas for integrating AI into our customer service process. Focus on improving response times, personalizing interactions, and predicting customer needs. For each idea, provide a brief description and potential benefits.",
+      "Analyze our current product development process. Identify three bottlenecks or inefficiencies, then suggest AI-powered solutions for each. For each solution, explain how it would work and the potential impact on time-to-market and product quality.",
+      "Evaluate the feasibility of implementing an AI-powered predictive maintenance system in our manufacturing plant. Consider technical requirements, potential ROI, implementation challenges, and timeline. Provide a pros and cons list and a final recommendation."
     ]
   },
   {
@@ -22,9 +36,23 @@ const coachingTopics = [
     description: "Discover how to instruct AI to summarize recent developments in healthcare AI.",
     icon: <Stethoscope className="h-6 w-6" />,
     prompts: [
-      "Direct the AI to identify the top 3 breakthrough AI technologies in healthcare from the past year. For each, provide a brief description, its potential impact on patient care, and any challenges to widespread adoption. Focus on technologies that have shown promising results in clinical trials or real-world applications.",
-      "Instruct the AI to summarize the current top 5 research areas in healthcare AI. For each area, provide: 1) A brief description of the focus, 2) Key institutions or companies leading the research, 3) Recent significant findings or breakthroughs, and 4) Potential near-future applications in clinical settings.",
-      "Ask the AI to identify 3 emerging AI applications in healthcare that are still in early stages but show significant promise. For each application, describe: 1) The specific healthcare problem it addresses, 2) How the AI solution works, 3) Current stage of development (e.g., research, pilot testing, early adoption), and 4) Potential impact on healthcare delivery or patient outcomes."
+      {
+        text: "Direct the AI to identify the top 3 breakthrough AI technologies in healthcare from the past year. For each, provide a brief description, its potential impact on patient care, and any challenges to widespread adoption. Focus on technologies that have shown promising results in clinical trials or real-world applications.",
+        requiresUpload: false,
+      },
+      {
+        text: "Instruct the AI to summarize the current top 5 research areas in healthcare AI. For each area, provide: 1) A brief description of the focus, 2) Key institutions or companies leading the research, 3) Recent significant findings or breakthroughs, and 4) Potential near-future applications in clinical settings.",
+        requiresUpload: false,
+      },
+      {
+        text: "Ask the AI to identify 3 emerging AI applications in healthcare that are still in early stages but show significant promise. For each application, describe: 1) The specific healthcare problem it addresses, 2) How the AI solution works, 3) Current stage of development (e.g., research, pilot testing, early adoption), and 4) Potential impact on healthcare delivery or patient outcomes.",
+        requiresUpload: false,
+      }
+    ],
+    examplePrompts: [
+      "Identify the top 3 breakthrough AI technologies in healthcare from the past year. For each, provide a brief description, its potential impact on patient care, and any challenges to widespread adoption. Focus on technologies that have shown promising results in clinical trials or real-world applications.",
+      "Summarize the current top 5 research areas in healthcare AI. For each area, provide: 1) A brief description of the focus, 2) Key institutions or companies leading the research, 3) Recent significant findings or breakthroughs, and 4) Potential near-future applications in clinical settings.",
+      "Identify 3 emerging AI applications in healthcare that are still in early stages but show significant promise. For each application, describe: 1) The specific healthcare problem it addresses, 2) How the AI solution works, 3) Current stage of development (e.g., research, pilot testing, early adoption), and 4) Potential impact on healthcare delivery or patient outcomes."
     ]
   },
   {
@@ -33,23 +61,39 @@ const coachingTopics = [
     description: "Learn to instruct AI in articulating complex strategies like Stanford Medicine's AI vision.",
     icon: <School className="h-6 w-6" />,
     prompts: [
-      "Guide the AI to analyze Stanford Medicine's public statements, research focus, and partnerships to identify the top 5 key objectives of their AI strategy. For each objective, provide: 1) A concise description, 2) How it aligns with broader healthcare trends, 3) Potential challenges in achieving this objective, and 4) Examples of current initiatives or projects supporting this objective.",
-      "Ask the AI to examine Stanford Medicine's AI initiatives, research publications, and collaborations to identify their top 3 technological focus areas in AI. For each area, provide: 1) A brief description of the technology, 2) Why it's strategic for Stanford Medicine, 3) Key projects or applications within this focus area, and 4) How it compares to focus areas of other leading medical institutions.",
-      "Instruct the AI to project the expected outcomes of Stanford Medicine's AI efforts over the next 5 years, based on their stated AI strategy and current initiatives. Include: 1) Potential breakthroughs in research or clinical care, 2) Expected improvements in patient outcomes or operational efficiency, 3) Possible new AI-driven services or products, and 4) Anticipated challenges or ethical considerations. Provide specific, quantifiable metrics where possible."
+      {
+        text: "Guide the AI to analyze Stanford Medicine's public statements, research focus, and partnerships to identify the top 5 key objectives of their AI strategy. For each objective, provide: 1) A concise description, 2) How it aligns with broader healthcare trends, 3) Potential challenges in achieving this objective, and 4) Examples of current initiatives or projects supporting this objective.",
+        requiresUpload: true,
+      },
+      {
+        text: "Ask the AI to examine Stanford Medicine's AI initiatives, research publications, and collaborations to identify their top 3 technological focus areas in AI. For each area, provide: 1) A brief description of the technology, 2) Why it's strategic for Stanford Medicine, 3) Key projects or applications within this focus area, and 4) How it compares to focus areas of other leading medical institutions.",
+        requiresUpload: true,
+      },
+      {
+        text: "Instruct the AI to project the expected outcomes of Stanford Medicine's AI efforts over the next 5 years, based on their stated AI strategy and current initiatives. Include: 1) Potential breakthroughs in research or clinical care, 2) Expected improvements in patient outcomes or operational efficiency, 3) Possible new AI-driven services or products, and 4) Anticipated challenges or ethical considerations. Provide specific, quantifiable metrics where possible.",
+        requiresUpload: true,
+      }
+    ],
+    examplePrompts: [
+      "Analyze Stanford Medicine's public statements, research focus, and partnerships to identify the top 5 key objectives of their AI strategy. For each objective, provide: 1) A concise description, 2) How it aligns with broader healthcare trends, 3) Potential challenges in achieving this objective, and 4) Examples of current initiatives or projects supporting this objective.",
+      "Examine Stanford Medicine's AI initiatives, research publications, and collaborations to identify their top 3 technological focus areas in AI. For each area, provide: 1) A brief description of the technology, 2) Why it's strategic for Stanford Medicine, 3) Key projects or applications within this focus area, and 4) How it compares to focus areas of other leading medical institutions.",
+      "Project the expected outcomes of Stanford Medicine's AI efforts over the next 5 years, based on their stated AI strategy and current initiatives. Include: 1) Potential breakthroughs in research or clinical care, 2) Expected improvements in patient outcomes or operational efficiency, 3) Possible new AI-driven services or products, and 4) Anticipated challenges or ethical considerations. Provide specific, quantifiable metrics where possible."
     ]
   }
 ];
 
 const SHCarizard = () => {
-  const [currentTopic, setCurrentTopic] = React.useState(null);
-  const [currentPrompt, setCurrentPrompt] = React.useState(0);
-  const [userInput, setUserInput] = React.useState('');
-  const [conversation, setConversation] = React.useState([]);
+  const [currentTopic, setCurrentTopic] = useState(null);
+  const [currentPrompt, setCurrentPrompt] = useState(0);
+  const [userInput, setUserInput] = useState('');
+  const [conversation, setConversation] = useState([]);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleTopicSelect = (topic) => {
     setCurrentTopic(topic);
     setCurrentPrompt(0);
     setConversation([]);
+    setUploadedFile(null);
   };
 
   const handleUserInput = (e) => {
@@ -66,15 +110,40 @@ const SHCarizard = () => {
     // Simulate AI response
     setTimeout(() => {
       const aiResponse = getAIResponse(currentTopic.id, currentPrompt);
-      setConversation([...newConversation, { role: 'ai', content: aiResponse }]);
+      const updatedConversation = [...newConversation, { role: 'ai', content: aiResponse }];
+      setConversation(updatedConversation);
 
+      // Progress to the next prompt
       if (currentPrompt < currentTopic.prompts.length - 1) {
-        setCurrentPrompt(currentPrompt + 1);
+        setCurrentPrompt(prevPrompt => prevPrompt + 1);
       } else {
-        setCurrentPrompt(0);
-        setCurrentTopic(null);
+        // If all prompts are completed, you might want to handle this case
+        // For example, show a completion message or reset to the topic selection
+        handleBackToTopics();
       }
     }, 1000);
+  };
+
+  const handleTryAgain = () => {
+    setConversation([]);
+    setUploadedFile(null);
+    setCurrentPrompt(0);  // Reset to the first prompt
+  };
+
+  const handleBackToTopics = () => {
+    setCurrentTopic(null);
+    setCurrentPrompt(0);
+    setConversation([]);
+    setUploadedFile(null);
+  };
+
+  const handleFileUpload = () => {
+    // Simulate file upload
+    setUploadedFile({
+      name: "uploaded_document.pdf",
+      size: "2.4 MB",
+      type: "application/pdf"
+    });
   };
 
   const getAIResponse = (topicId, promptIndex) => {
@@ -100,8 +169,8 @@ const SHCarizard = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">SHCarizard: AI Instruction Coach</h1>
-      
+      <h1 className="text-2xl font-bold mb-4">SHCarizard: AI Prompt Coach</h1>
+
       {!currentTopic ? (
         <div className="grid grid-cols-1 gap-4">
           {coachingTopics.map((topic) => (
@@ -119,9 +188,29 @@ const SHCarizard = () => {
           <h2 className="text-xl font-semibold mb-2">{currentTopic.title}</h2>
           <p className="mb-4">{currentTopic.description}</p>
           <div className="mb-4">
-            <p className="font-medium">Coaching Prompt:</p>
-            <p>{currentTopic.prompts[currentPrompt]}</p>
+            <p className="font-medium">Coaching Prompt ({currentPrompt + 1}/{currentTopic.prompts.length}):</p>
+            <p>{currentTopic.prompts[currentPrompt].text}</p>
           </div>
+          <div className="mb-4">
+            <p className="font-medium">Example Prompt:</p>
+            <p className="italic">{currentTopic.examplePrompts[currentPrompt]}</p>
+          </div>
+          {currentTopic.prompts[currentPrompt].requiresUpload && (
+            <div className="mb-4">
+              <p className="font-medium">Required Document:</p>
+              {uploadedFile ? (
+                <div className="flex items-center space-x-2 bg-gray-100 p-2 rounded">
+                  <FileText className="h-5 w-5 text-gray-500" />
+                  <span>{uploadedFile.name}</span>
+                  <span className="text-sm text-gray-500">({uploadedFile.size})</span>
+                </div>
+              ) : (
+                <Button onClick={handleFileUpload} className="mt-2">
+                  <Upload className="mr-2 h-4 w-4" /> Upload Document
+                </Button>
+              )}
+            </div>
+          )}
           <div className="space-y-4">
             {conversation.map((message, index) => (
               <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -139,8 +228,14 @@ const SHCarizard = () => {
               placeholder="Type your AI instruction here..."
               className="flex-grow"
             />
-            <Button onClick={handleSubmit}>
+            <Button onClick={handleSubmit} disabled={currentTopic.prompts[currentPrompt].requiresUpload && !uploadedFile}>
               <MessageSquare className="mr-2 h-4 w-4" /> Send
+            </Button>
+          </div>
+          <div className="mt-4 flex space-x-2">
+            <Button onClick={handleTryAgain}>Try Again</Button>
+            <Button onClick={handleBackToTopics}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Topics
             </Button>
           </div>
         </div>
