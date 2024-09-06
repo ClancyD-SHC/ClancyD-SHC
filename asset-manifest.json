@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ClancyD-SHC/static/css/main.1689b134.css",
-    "main.js": "/ClancyD-SHC/static/js/main.91a5f0aa.js",
+    "main.js": "/ClancyD-SHC/static/js/main.7824ed90.js",
     "static/js/453.4f01d88d.chunk.js": "/ClancyD-SHC/static/js/453.4f01d88d.chunk.js",
     "index.html": "/ClancyD-SHC/index.html",
     "main.1689b134.css.map": "/ClancyD-SHC/static/css/main.1689b134.css.map",
-    "main.91a5f0aa.js.map": "/ClancyD-SHC/static/js/main.91a5f0aa.js.map",
+    "main.7824ed90.js.map": "/ClancyD-SHC/static/js/main.7824ed90.js.map",
     "453.4f01d88d.chunk.js.map": "/ClancyD-SHC/static/js/453.4f01d88d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1689b134.css",
-    "static/js/main.91a5f0aa.js"
+    "static/js/main.7824ed90.js"
   ]
 }
